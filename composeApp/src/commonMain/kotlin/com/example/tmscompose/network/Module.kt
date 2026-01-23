@@ -1,6 +1,6 @@
 package com.example.tmscompose.network
 
-import com.example.tmscompose.commom.SettingsUtils
+import com.example.tmscompose.commom.getStoreString
 import com.example.tmscompose.util.logD
 import io.ktor.client.HttpClient
 import io.ktor.client.plugins.HttpTimeout
@@ -23,7 +23,7 @@ val clientModule = module {
                 url(baseUrl)
                 header("CLIENT", "2")
                 header("VERSION", "1")
-                header("TOKEN", SettingsUtils.getString("TOKEN", ""))
+                header("TOKEN", getStoreString("TOKEN", ""))
             }
 
             install(HttpTimeout) {

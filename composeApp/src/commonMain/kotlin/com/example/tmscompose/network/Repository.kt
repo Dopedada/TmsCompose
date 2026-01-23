@@ -1,18 +1,17 @@
 package com.example.tmscompose.network
 
 import com.example.tmscompose.entity.ImgVerifyEntity
+import com.example.tmscompose.entity.LoginEntity
 import io.ktor.client.HttpClient
-import io.ktor.client.call.body
-import io.ktor.client.request.get
 
 class Repository(private val httpClient: HttpClient) {
 
-    suspend fun getArticles(page: Int = 0): ApiResponse<String> {
-        return httpClient.get("/article/list/$page/json").body()
+    suspend fun loadImgVerifyCode(): TmsApiResult<ImgVerifyEntity> {
+        return httpClient.getRequest<ImgVerifyEntity>("tms/login/imgCode")
     }
 
-    suspend fun loadImgVerifyCode(): TmsApiResult<ImgVerifyEntity> {
-        return httpClient.get("tms/login/imgCode").body()
+    suspend fun doLogisticsLogin(body: Map<String, Any?>): TmsApiResult<LoginEntity> {
+        return httpClient.postRequest(path = "tms/login/doLogin", body = body)
     }
 
 }

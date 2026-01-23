@@ -2,6 +2,8 @@ package com.example.tmscompose.ext
 
 import androidx.lifecycle.viewModelScope
 import com.example.tmscompose.base.BaseViewModel
+import com.example.tmscompose.network.ApiException
+import com.example.tmscompose.util.logE
 import io.ktor.client.network.sockets.SocketTimeoutException
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
@@ -28,11 +30,11 @@ fun <T> BaseViewModel.request(
                 else -> {
                     if (showErrorToast) {
                         errorMessage = when (e) {
-//                            is ApiException -> e.message
-//                            is ConnectException, is UnknownHostException -> "网络走丢了,请查看手机网络状态"
+                            is ApiException -> e.message
                             is SocketTimeoutException -> "网络拥堵,稍后请重试"
-                            else -> "未知错误"
+                            else -> e.message
                         }
+                        errorMessage?.logE()
                     }
                     error?.invoke(e)
                 }

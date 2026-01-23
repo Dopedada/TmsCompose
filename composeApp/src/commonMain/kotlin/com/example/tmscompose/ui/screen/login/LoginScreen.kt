@@ -20,9 +20,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -49,40 +51,45 @@ import com.example.tmscompose.theme.ColorF7F7F7
 import com.example.tmscompose.ui.components.TextInputField
 import com.example.tmscompose.ui.components.line
 import com.example.tmscompose.ui.components.noRippleClickable
+import com.example.tmscompose.ui.dialog.DialogType
+import com.example.tmscompose.ui.dialog.LocalGlobalDialogManager
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.getKoin
+import org.koin.compose.viewmodel.koinViewModel
 import tmscompose.composeapp.generated.resources.Res
 import tmscompose.composeapp.generated.resources.ic_login_bg
 
 const val ACCOUNT = "account"
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel = getKoin().get(), navController: NavController) {
-//    val dialogManager = LocalGlobalDialogManager.current
+fun LoginScreen(viewModel: LoginViewModel = koinViewModel(), navController: NavController) {
+    val dialogManager = LocalGlobalDialogManager.current
     val imgVerify = viewModel.imgVerify.collectAsState()
-//    val isShowLoadDialog by viewModel.isShowLoadDialog.collectAsState()
-//    val isLoginSuccess by viewModel.isLoginSuccess.collectAsState()
-//    LaunchedEffect(isShowLoadDialog) {
-//        if (isShowLoadDialog) {
-//            dialogManager.showDialog(dialogType = DialogType.LOADING)
-//        } else {
-//            dialogManager.dismissDialog()
-//        }
-//    }
-//
-//
-//    LaunchedEffect(viewModel.errorMessage) {
-//        viewModel.errorMessage?.let {
-//            dialogManager.showToast(it)
-//            viewModel.errorMessage = null
-//        }
-//    }
+    val isShowLoadDialog by viewModel.isShowLoadDialog.collectAsState()
+    val isLoginSuccess by viewModel.isLoginSuccess.collectAsState()
+    LaunchedEffect(isShowLoadDialog) {
+        if (isShowLoadDialog) {
+            dialogManager.showDialog(dialogType = DialogType.LOADING)
+        } else {
+            dialogManager.dismissDialog()
+        }
+    }
 
-//    LaunchedEffect(isLoginSuccess) {
-//        if (isLoginSuccess) {
-//            startClick.invoke()
-//        }
-//    }
+    LaunchedEffect(viewModel.errorMessage) {
+        viewModel.errorMessage?.let {
+            dialogManager.showToast(it)
+            viewModel.errorMessage = null
+        }
+    }
+
+    LaunchedEffect(isLoginSuccess) {
+        if (isLoginSuccess) {
+            navController.navigate("Home") {
+                popUpTo("Login") {
+                    inclusive = true
+                }
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
@@ -104,24 +111,24 @@ fun LoginScreen(viewModel: LoginViewModel = getKoin().get(), navController: NavC
         ) {
             LoginInput(
                 label = "账号",
-                account = "viewModel.account",
+                account = viewModel.account,
                 onValueChange = {
-                    //viewModel.updateAccount(it)
+                    viewModel.updateAccount(it)
                 })
             ImageVerify(
                 imgVerify = imgVerify,
                 refreshClick = {
-                    //viewModel.getLoadImgVerifyCode()
+                    viewModel.getLoadImgVerifyCode()
                 },
                 imgVerifyChange = {
-                    // viewModel.updateImgVerificationCode(it)
+                    viewModel.updateImgVerificationCode(it)
                 })
             LoginInput(
                 label = "密码",
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardType = KeyboardType.Password,
                 onValueChange = {
-                    //        viewModel.updatePwd(it)
+                    viewModel.updatePwd(it)
                 }
             )
             Spacer(modifier = Modifier.padding(top = 15.dp))
@@ -140,8 +147,7 @@ fun LoginScreen(viewModel: LoginViewModel = getKoin().get(), navController: NavC
                 shape = RoundedCornerShape(40.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color3B82F6),
                 onClick = {
-                    viewModel.getData()
-//                    viewModel.doLogisticsLogin()
+                    viewModel.doLogisticsLogin()
                 }) {
                 Text(
                     text = "登 录",
