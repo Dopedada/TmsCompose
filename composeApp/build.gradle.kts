@@ -62,6 +62,11 @@ kotlin {
 
             implementation(libs.constraintlayout.compose.multiplatform)
 
+            // peekaboo-ui
+            implementation(libs.peekaboo.ui)
+
+            // peekaboo-image-picker
+            implementation(libs.peekaboo.image.picker)
         }
 
         iosMain {

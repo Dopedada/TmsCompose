@@ -25,9 +25,10 @@ actual fun createHttpClientEngine(): HttpClientEngine {
 actual fun Double?.normalFormat(): String {
     if (this == null) return "0"
     val formatter = NSNumberFormatter().apply {
-        maximumFractionDigits = 15.toULong()
-        minimumFractionDigits = 15.toULong()
+        maximumFractionDigits = 2.toULong()
+        minimumFractionDigits = 0.toULong()
         numberStyle = NSNumberFormatterDecimalStyle
+        usesGroupingSeparator = false
     }
     return formatter.stringFromNumber(NSNumber(this)) ?: this.toString()
 }

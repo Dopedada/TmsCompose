@@ -4,23 +4,23 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class TmsPlanListEntity(
-    val license: String?,
-    val OrderPlan: OrderPlan?,
-    val OrderRoute: OrderRoute?,
-    val MaterialUnit: MaterialUnit?,
-    val DeliveryWay: DeliveryWay?,
-    val OrderAdjustPrice: OrderAdjustPrice?,
-//    val ContractMaterial: PlanMaterial?,
-    val OrderAdjustNum: OrderAdjustNum?,
+    val license: String? = null,
+    val OrderPlan: OrderPlan? = null,
+    val OrderRoute: OrderRoute? = null,
+    val MaterialUnit: MaterialUnit? = null,
+    val DeliveryWay: DeliveryWay? = null,
+    val OrderAdjustPrice: OrderAdjustPrice? = null,
+//    val ContractMaterial: PlanMaterial?=null,
+    val OrderAdjustNum: OrderAdjustNum? = null,
 )
 
 @Serializable
 data class OrderAdjustNum(
-    val createTime: String?,
-    val createName: String?,
-    val adjustDesc: String?,
-    val orderNumAfter: Double?,
-    val orderNumBefore: Double?,
+    val createTime: String? = null,
+    val createName: String? = null,
+    val adjustDesc: String? = null,
+    val orderNumAfter: Double? = null,
+    val orderNumBefore: Double? = null,
 )
 
 //@Serializable
@@ -39,55 +39,53 @@ data class OrderAdjustNum(
 
 @Serializable
 data class OrderAdjustPrice(
-    val transportPriceAfter: Double?,
-    val afterOverflowPrice: Double?,
-    val afterLossPrice: Double?,
-    val afterLossNums: Double?,
-    val afterOverflowNums: Double?,
-    val createName: String?,
-    val adjustDesc: String?,
+    val transportPriceAfter: Double? = null,
+    val afterOverflowPrice: Double? = null,
+    val afterLossPrice: Double? = null,
+    val afterLossNums: Double? = null,
+    val afterOverflowNums: Double? = null,
+    val createName: String? = null,
+    val adjustDesc: String? = null,
 )
 
 @Serializable
 data class MaterialUnit(
-    val materialUnitName: String?
+    val materialUnitName: String? = null
 )
 
 @Serializable
 data class DeliveryWay(
-    val deliveryWayName: String?
+    val deliveryWayName: String? = null
 )
 
 @Serializable
 data class OrderPlan(
-    val orderCode: String?,
-    val qrCode: String?,
-    val materialName: String?,
-    val createTime: String?,
-    val orderName: String?,
-    val updateTime: String?,
-    val updateUsername: String?,
-    val materialUnitName: String?,
-    val totalSendnums: Double?,
-    val totalLoading: Double?,
-    val goodsUnitPrice: Double?,
-    val overflowPrice: Double?,
-    val lossPrice: Double?,
-    val overflowNums: Double?,
-    val payUnitPrice: Double?,
-    val lossNums: Double?,
-    val totalStock: Double?,
-    val maxSendOut: Double?,
-    val orderStatus: Int?,
-    val orderPaytypeId: Int?,
-    val chargingRuleId: Int?
+    val orderCode: String? = null,
+    val qrCode: String? = null,
+    val materialName: String? = null,
+    val createTime: String? = null,
+    val orderName: String? = null,
+    val materialUnitName: String? = null,
+    val totalSendnums: Double? = null,
+    val totalLoading: Double? = null,
+    val goodsUnitPrice: Double? = null,
+    val overflowPrice: Double? = null,
+    val lossPrice: Double? = null,
+    val overflowNums: Double? = null,
+    val payUnitPrice: Double? = null,
+    val lossNums: Double? = null,
+    val totalStock: Double? = null,
+    val maxSendOut: Double? = null,
+    val orderStatus: Int? = null,
+    val orderPaytypeId: Int? = null,
+    val chargingRuleId: Int? = null
 )
 
 @Serializable
 data class OrderRoute(
 //    val loadFence: Int?,
 //    val loadFenceMiles: Double?,
-    val loadingAddress: String?,
+    val loadingAddress: String? = null,
 //    val loadingAreaId: Int?,
 //    val loadingCompany: String?,
 //    val loadingCompanyCode: String?,
@@ -96,10 +94,10 @@ data class OrderRoute(
 //    val loadingLatitude: String?,
 //    val loadingLongitude: String?,
 //    val routeDesc: String?,
-    val routeMiles: Double?,
-    val routeName: String?,
+    val routeMiles: Double? = null,
+    val routeName: String? = null,
 //    val unlaodContacts: String?,
-    val unloadAddress: String?,
+    val unloadAddress: String? = null,
 //    val unloadAreaId: Int?,
 //    val unloadCompanyCode: String?,
 //    val unloadContactsTel: String?,

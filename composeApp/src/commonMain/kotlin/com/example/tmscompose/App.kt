@@ -19,8 +19,8 @@ import com.example.tmscompose.ui.dialog.GlobalDialog
 import com.example.tmscompose.ui.dialog.GlobalManager
 import com.example.tmscompose.ui.dialog.LocalGlobalDialogManager
 import com.example.tmscompose.ui.screen.SplashScreen
-import com.example.tmscompose.ui.screen.home.HomeScreen
 import com.example.tmscompose.ui.screen.login.LoginScreen
+import com.example.tmscompose.ui.screen.main.MainScreen
 import com.example.tmscompose.ui.viewModelModule
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,6 +29,16 @@ import org.koin.compose.KoinApplication
 const val IS_LOGIN = "isLogin"
 
 fun appModule() = listOf(clientModule, repositoryModule, viewModelModule)
+
+// 定义导航路由常量，统一管理
+sealed class ScreenRoute(val route: String) {
+    object Splash : ScreenRoute("splash")
+    object Login : ScreenRoute("login")
+    object Main : ScreenRoute("main")
+    object Home : ScreenRoute("home")
+    object Work : ScreenRoute("work")
+    object Mine : ScreenRoute("mine")
+}
 
 @Composable
 @Preview
@@ -41,23 +51,23 @@ fun App() {
                 val coroutineScope = rememberCoroutineScope()
                 coroutineScope.launch {
                     delay(2000)
-                    val route = if (getStoreBoolean(IS_LOGIN)) "Home" else "Login"
+                    val route = if (getStoreBoolean(IS_LOGIN)) ScreenRoute.Main.route else ScreenRoute.Login.route
                     navController.navigate(route) {
-                        popUpTo("Splash") {
+                        popUpTo(ScreenRoute.Splash.route) {
                             inclusive = true
                         }
                     }
                 }
                 Box(modifier = Modifier.fillMaxSize()) {
-                    NavHost(navController = navController, startDestination = "Splash") {
-                        composable("Splash") {
+                    NavHost(navController = navController, startDestination = ScreenRoute.Splash.route) {
+                        composable(ScreenRoute.Splash.route) {
                             SplashScreen()
                         }
-                        composable("Login") {
+                        composable(ScreenRoute.Login.route) {
                             LoginScreen(navController = navController)
                         }
-                        composable("Home") {
-                            HomeScreen()
+                        composable(ScreenRoute.Main.route) {
+                            MainScreen()
                         }
                     }
                     GlobalDialog()

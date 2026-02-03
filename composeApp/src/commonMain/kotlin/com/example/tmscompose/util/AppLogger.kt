@@ -9,7 +9,7 @@ enum class LogLevel() {
 
 const val LOG_FLAG = true
 
-const val TAG = "TmsCompose"
+const val TAG = "TmsCompose---Log"
 
 fun String.logD(tag: String = TAG) {
     if (LOG_FLAG) platformPrint(LogLevel.DEBUG, tag, this)

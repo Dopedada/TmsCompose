@@ -18,6 +18,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.tmscompose.theme.Color1873D4
 import com.example.tmscompose.theme.Color999999
 import com.example.tmscompose.theme.ColorF2F5F9
@@ -29,6 +30,8 @@ import com.example.tmscompose.ui.components.layout.CoordinatorLayout
 import com.example.tmscompose.ui.components.layout.rememberCoordinatorState
 import com.example.tmscompose.ui.components.noRippleClickable
 import com.example.tmscompose.ui.items.HomeItems
+import com.preat.peekaboo.image.picker.SelectionMode
+import com.preat.peekaboo.image.picker.rememberImagePickerLauncher
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 import tmscompose.composeapp.generated.resources.*
@@ -39,6 +42,19 @@ fun HomeScreen(
     viewModel: HomeScreenViewModel = koinViewModel(),
 ) {
     val hasMoreData by viewModel.hasMoreData.collectAsState()
+
+    val scope = rememberCoroutineScope()
+
+    val singleImagePicker = rememberImagePickerLauncher(
+        selectionMode = SelectionMode.Single,
+        scope = scope,
+        onResult = { byteArrays ->
+            byteArrays.firstOrNull()?.let {
+                println(it)
+            }
+        }
+    )
+
     SwipeRefresh(
         modifier = Modifier.fillMaxSize(),
         isRefreshing = viewModel.isRefreshing.collectAsState().value,
@@ -62,7 +78,7 @@ fun HomeScreen(
             }
 
             var nonCollapsableHeight by remember { mutableIntStateOf(0) }
-            val list by viewModel.dataList.collectAsState()
+            val list by viewModel.dataList.collectAsStateWithLifecycle()
 
             CoordinatorLayout(
                 nestedScrollableState = { lazyListState },
@@ -94,7 +110,7 @@ fun HomeScreen(
                                     shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)
                                 )) { type ->
                             when (type) {
-                                0 -> {}
+                                0 -> {singleImagePicker.launch()}
                                 1 -> {}
                                 2 -> {}
                                 3 -> {}
@@ -140,11 +156,9 @@ fun HomeScreen(
                     }
                 }
             }
-
             TopAppBar(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(80.dp)
                     .graphicsLayer {
                         alpha = titleBarAlpha
                     }
@@ -153,7 +167,6 @@ fun HomeScreen(
                     }
                     .background(Brush.verticalGradient(colors = gradientColors)), title = {
                     Text(
-                        //modifier = Modifier.padding(top = 18.dp),
                         text = "测试TODO",
                         color = MaterialTheme.colorScheme.onSurface.copy(
                             alpha = titleBarAlpha
@@ -174,7 +187,6 @@ fun HomeScreen(
         }
     }
 }
-
 
 @Composable
 fun HomeFeature(modifier: Modifier = Modifier, onClick: (type: Int) -> Unit) {

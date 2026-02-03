@@ -3,6 +3,7 @@ package com.example.tmscompose.network
 import com.example.tmscompose.entity.ImgVerifyEntity
 import com.example.tmscompose.entity.LoginEntity
 import com.example.tmscompose.entity.TmsPlanListEntity
+import com.example.tmscompose.entity.WorkMenuEntity
 import io.ktor.client.*
 
 class Repository(private val httpClient: HttpClient) {
@@ -25,6 +26,10 @@ class Repository(private val httpClient: HttpClient) {
             path = "v2/driver/select/doSearchByForm",
             body = mapOf("formId" to formId, "statusId" to statusId, "start" to start, "length" to length)
         )
+    }
+
+    suspend fun getMenuList(): TmsApiResult<MutableList<WorkMenuEntity>> {
+        return httpClient.getRequest(path = "tms/app/menu/getUserMenu")
     }
 
 }
