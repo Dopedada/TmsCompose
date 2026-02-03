@@ -2,7 +2,8 @@ package com.example.tmscompose.network
 
 import com.example.tmscompose.entity.ImgVerifyEntity
 import com.example.tmscompose.entity.LoginEntity
-import io.ktor.client.HttpClient
+import com.example.tmscompose.entity.TmsPlanListEntity
+import io.ktor.client.*
 
 class Repository(private val httpClient: HttpClient) {
 
@@ -12,6 +13,18 @@ class Repository(private val httpClient: HttpClient) {
 
     suspend fun doLogisticsLogin(body: Map<String, Any?>): TmsApiResult<LoginEntity> {
         return httpClient.postRequest(path = "tms/login/doLogin", body = body)
+    }
+
+    suspend fun getHomePlanList(
+        formId: Int = 3000117,
+        statusId: Int = 1,
+        start: Int,
+        length: Int = 10
+    ): TmsApiResult<MutableList<TmsPlanListEntity>> {
+        return httpClient.postRequestForEncoded(
+            path = "v2/driver/select/doSearchByForm",
+            body = mapOf("formId" to formId, "statusId" to statusId, "start" to start, "length" to length)
+        )
     }
 
 }

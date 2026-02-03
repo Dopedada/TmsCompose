@@ -3,8 +3,10 @@ package com.example.tmscompose.ui.screen.login
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import com.example.tmscompose.IS_LOGIN
 import com.example.tmscompose.base.BaseViewModel
 import com.example.tmscompose.commom.getStoreString
+import com.example.tmscompose.commom.saveBoolean
 import com.example.tmscompose.commom.saveString
 import com.example.tmscompose.entity.ImgVerifyEntity
 import com.example.tmscompose.ext.request
@@ -13,9 +15,11 @@ import com.example.tmscompose.util.logE
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.serialization.json.Json
 import kotlin.io.encoding.Base64
 
 const val USER_TOKEN = "user_token"
+const val USER_INFO = "user_info"
 
 class LoginViewModel(private val repository: Repository) : BaseViewModel() {
 
@@ -103,6 +107,16 @@ class LoginViewModel(private val repository: Repository) : BaseViewModel() {
 
                     //存入登录用户信息
 //                    TmsDatabase.getInstance().loginUersDao().insertLoginUser(loginEntity)
+                    val js = Json {
+                        // 可选配置，根据需求调整
+                        ignoreUnknownKeys = true // 反序列化时忽略未知字段（序列化时无影响）
+                        isLenient = true // 允许宽松的JSON格式（如尾随逗号）
+                        prettyPrint = true // 格式化输出JSON（便于阅读，生产环境可关闭）
+                        encodeDefaults = true // 序列化时包含默认值字段（默认开启）
+                    }
+                    val encodeToString = js.encodeToString(loginEntity)
+                    saveString(USER_INFO, encodeToString)
+                    saveBoolean(IS_LOGIN, true)
                     //存入用户token
                     saveString(USER_TOKEN, loginEntity.token ?: "")
                     saveString(ACCOUNT, account)

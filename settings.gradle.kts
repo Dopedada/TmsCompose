@@ -29,3 +29,5 @@ dependencyResolutionManagement {
 }
 
 include(":composeApp")
+include(":refresh")
+include(":refresh-indicator-classic")

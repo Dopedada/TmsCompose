@@ -57,6 +57,11 @@ kotlin {
             implementation(libs.koin.compose)
             implementation(libs.koin.compose.viewmodel)
 
+            implementation(projects.refresh)
+            implementation(projects.refreshIndicatorClassic)
+
+            implementation(libs.constraintlayout.compose.multiplatform)
+
         }
 
         iosMain {
@@ -64,6 +69,7 @@ kotlin {
                 implementation(libs.ktor.client.darwin)
             }
         }
+
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -92,12 +98,13 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jvmTarget.get())
     }
 }
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
 }
+
 

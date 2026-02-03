@@ -6,8 +6,9 @@ import android.os.Build
 import com.example.tmscompose.TmsApp.Companion.appContext
 import com.russhwolf.settings.Settings
 import com.russhwolf.settings.SharedPreferencesSettings
-import io.ktor.client.engine.HttpClientEngine
-import io.ktor.client.engine.okhttp.OkHttp
+import io.ktor.client.engine.*
+import io.ktor.client.engine.okhttp.*
+import java.text.DecimalFormat
 
 class AndroidPlatform : Platform {
     override val name: String = "Android ${Build.VERSION.SDK_INT}"
@@ -22,4 +23,13 @@ actual fun createSettings(): Settings {
 
 actual fun createHttpClientEngine(): HttpClientEngine {
     return OkHttp.create()
+}
+
+actual fun Double?.normalFormat(): String {
+    return DecimalFormat("#.###############").format(this ?: 0.0f)
+}
+
+actual fun Double?.doubleToDecimalPlace(decimals: Int, def: Double): Double {
+    if (this == null) return def
+    return "%.${decimals}f".format(this).toDouble()
 }

@@ -41,7 +41,7 @@ fun App() {
                 val coroutineScope = rememberCoroutineScope()
                 coroutineScope.launch {
                     delay(2000)
-                    val route = if (getStoreBoolean(IS_LOGIN)) "" else "Login"
+                    val route = if (getStoreBoolean(IS_LOGIN)) "Home" else "Login"
                     navController.navigate(route) {
                         popUpTo("Splash") {
                             inclusive = true

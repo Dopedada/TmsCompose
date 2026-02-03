@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Compose</string>
+    <string name="cargo_quantity">货量 | 余量 A&#160;&#160;已发 B</string>
+</resources>

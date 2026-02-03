@@ -1,16 +1,14 @@
 package com.example.tmscompose.network
 
 import com.example.tmscompose.commom.getStoreString
+import com.example.tmscompose.ui.screen.login.USER_TOKEN
 import com.example.tmscompose.util.logD
-import io.ktor.client.HttpClient
-import io.ktor.client.plugins.HttpTimeout
-import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
-import io.ktor.client.plugins.defaultRequest
-import io.ktor.client.plugins.logging.LogLevel
-import io.ktor.client.plugins.logging.Logger
-import io.ktor.client.plugins.logging.Logging
-import io.ktor.client.request.header
-import io.ktor.serialization.kotlinx.json.json
+import io.ktor.client.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.request.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 
@@ -23,7 +21,7 @@ val clientModule = module {
                 url(baseUrl)
                 header("CLIENT", "2")
                 header("VERSION", "1")
-                header("TOKEN", getStoreString("TOKEN", ""))
+                header("TOKEN", getStoreString(USER_TOKEN, ""))
             }
 
             install(HttpTimeout) {
